@@ -137,6 +137,24 @@
   --shadow-ink: #a9c4e6;
   --lilac: #ffd65c;
 
+  /* bg-ink text-bg flips with the ground: a constant ink would put dark on
+     dark and the primary button would vanish at the point it should be most
+     clickable. Gold fill, dark text (12.5:1). */
+  --ink: #ffd65c;
+  --ink-hover: #ffe38f;
+  --on-indigo: #12233c;
+
+  --peach: #3a6a9e;
+  --peach-soft: #22334d;
+  /* Lighter here than in light mode: a fill carrying the page ground as text
+     has to be light on a dark page (9.9:1). */
+  --cocoa: #9cc1ea;
+  --cocoa-soft: #2a3b56;
+
+  --glow: #ffd65c;
+  --obsidian: #0a1119;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -333,21 +351,3 @@
   }
 }
 
-
-  /* bg-ink text-bg flips with the ground: a constant ink would put dark on
-     dark and the primary button would vanish at the point it should be most
-     clickable. Gold fill, dark text (12.5:1). */
-  --ink: #ffd65c;
-  --ink-hover: #ffe38f;
-  --on-indigo: #12233c;
-
-  --peach: #3a6a9e;
-  --peach-soft: #22334d;
-  /* Lighter here than in light mode: a fill carrying the page ground as text
-     has to be light on a dark page (9.9:1). */
-  --cocoa: #9cc1ea;
-  --cocoa-soft: #2a3b56;
-
-  --glow: #ffd65c;
-  --obsidian: #0a1119;
-}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- The two brand grounds, in the order they are actually used: light is the
+         default here, because the palette's dominant tone is a pale sky blue. -->
+
+    <meta name="theme-color" content="#f6fafe" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101a2b" media="(prefers-color-scheme: dark)" />
+
+    <title>Zeyayaya - Dream Keeper VTuber Indonesia</title>
+
+    <meta
+      name="description"
+      content="Zeyayaya (Zeya Haize), penjaga mimpimu di Pond of Dream. Livestream dan upload di YouTube, update dan art di X."
+    />
+
+    <meta name="author" content="Zeyayaya" />
+    <link rel="canonical" href="https://zeyayaya.vtube-info.xyz/" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Zeyayaya" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:title" content="Zeyayaya - Dream Keeper VTuber Indonesia" />
+    <meta
+      property="og:description"
+      content="Livestream, upload, dan fan art dari #haizeyart."
+    />
+    <meta property="og:url" content="https://zeyayaya.vtube-info.xyz/" />
+    <meta property="og:image" content="https://zeyayaya.vtube-info.xyz/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta name="og:image:alt" content="Zeyayaya" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zeyayaya - Dream Keeper" />
+    <meta
+      name="twitter:description"
+      content="Livestream, upload, dan fan art dari #haizeyart."
+    />
+    <meta name="twitter:image" content="https://zeyayaya.vtube-info.xyz/og-image.png" />
+
+    <!-- The tab icon is the avatar itself, same file the social card uses.
+         iOS ignores WebP for touch icons, so that one stays PNG. -->
+    <link rel="icon" type="image/png" href="/og-image.png" />
+    <link rel="apple-touch-icon" href="/media/apple-touch-icon.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Zeya Haize",
+        "alternateName": ["Zeyayaya", "@ZeyaHaize", "@zeyahaize"],
+        "description": "Penjaga mimpimu agar tidurmu nyenyak. Dream keeper of Pond of Dream. VTuber Indonesia.",
+        "url": "https://zeyayaya.vtube-info.xyz/",
+        "image": "https://zeyayaya.vtube-info.xyz/media/avatar-youtube.webp",
+        "sameAs": [
+          "https://www.youtube.com/@ZeyaHaize",
+          "https://x.com/zeyahaize",
+          "https://instagram.com/zeyahaize",
+          "https://join.pondofdream.com"
+        ]
+      }
+    </script>
+
+    <script>
+      // Runs before first paint so the correct token set is already on screen.
+      // Without this, a dark-mode visitor eats one light flash on every load.
+      //
+      // Light is the fallback rather than dark: the base tone is a pale sky
+      // blue, and defaulting to dark would mean the page argues with the
+      // artwork before the visitor has touched anything.
+      (function () {
+        try {
+          var stored = localStorage.getItem("zeyayaya-theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = stored || (prefersDark ? "dark" : "light");
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

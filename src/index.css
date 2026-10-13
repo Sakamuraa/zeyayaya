@@ -1,0 +1,353 @@
+﻿@import "tailwindcss";
+@import "@fontsource-variable/quicksand/index.css";
+@import "@fontsource-variable/hanken-grotesk/index.css";
+
+/* ==========================================================================
+   Design tokens
+   --------------------------------------------------------------------------
+   Palette comes straight from the brand brief:
+      base / midtone ......... #A3C7EE   soft ice/sky blue, the colour that
+                                         dominates her hair
+      shadow ................ #5B86B7   muted medium blue for the hair's
+                                         hollows and cast shadows
+      highlight / glow ....... #FFD65C   the lit gold in her shining eyes and
+                                         on her jewellery
+
+   Light is the default: the brief's base is a pale sky tone, and a pale brand
+   colour under a dark ground would fight the artwork on every visit. Dark is
+   the alternate, a night sky the gold can actually shine against.
+
+   The ink ramp is derived from the same blue and verified against WCAG 2.2 AA:
+   4.5 for body text, 3.0 for boundaries. Every pairing the UI actually renders
+   was measured rather than eyeballed, in both themes. Two consequences of the
+   brief are recorded here so they are not "fixed" by accident:
+
+     - the shadow #5B86B7 is a mid-tone: 3.6:1 on the light ground, fine for a
+       boundary or a fill, but it cannot carry small text. The text reading of
+       the shadow tone is its own darker step (--shadow-ink, 7.6:1 on the chip
+       fill), which is what --color-shadow maps to; --shadow itself stays the
+       brief's exact value for fills and the hero's drop shadow.
+     - the highlight #FFD65C is a lit gold: it reads as text only on the dark
+       ground (12.5:1) and never on the light one. In light it is what the
+       brief wants it for -- glow badges, the notify bell, the wash -- while
+       --accent takes a deepened step of the base, the same move the rest of
+       the family makes with their own highlights.
+
+   Shape rule, applied without exception:
+      media frames ............ arch  (top radius 999px, bottom 20px)
+      cards / panels ......... 20px
+      buttons ................ 16px, never pill
+      tags ................... 999px
+   Soft and round on purpose: this is a dream keeper under clouds, and the arch
+   frame plus pill tags are the shapes that theme. (The template shipped no
+   --radius-pill, so its tags rendered square everywhere -- defined here.)
+   ========================================================================== */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f6fafe;
+  --surface: #ecf3fc;
+  --surface-deep: #dfeaf8;
+
+  --line: #cfdff3;
+  /* The brief's shadow doubling as the visible boundary: 3.6:1 on the page
+     ground and 3.1:1 on the deepest chip fill, both over the 3.0 floor. */
+  --line-strong: #5b86b7;
+
+  --fg: #16283f;
+  --fg-muted: #33506f;
+  /* 4.99:1 on surface-deep, where tertiary text actually lands. */
+  --fg-subtle: #4a6486;
+
+  /* A deepened step of the base: #A3C7EE as text is 1.7:1 here, so the accent
+     keeps the hue and takes the depth (6.2:1 on the ground). */
+  --accent: #2f5f9e;
+  --accent-contrast: #f6fafe;
+  --accent-soft: #dceafd;
+
+  --ring: #2f5f9e;
+
+  /* Brand tones, used as large fills rather than as text colours. */
+  --indigo: #a3c7ee;
+  --indigo-deep: #5b86b7;
+  --indigo-soft: #dcebfd;
+  /* The brief's shadow, exact. Fills and the hero's drop shadow; text goes
+     through --shadow-ink below. */
+  --shadow: #5b86b7;
+  /* The text reading of the shadow tone: same hue, one step deeper. */
+  --shadow-ink: #2c4a73;
+  /* The brief's highlight, exact. */
+  --lilac: #ffd65c;
+  /* Primary button fill: bg-ink text-bg, so ink carries the page ground as
+     text (10.4:1). */
+  --ink: #1f3d66;
+  --ink-hover: #2a4f82;
+  /* Text placed ON the base fill (selection, badges): the base is pale, so
+     this stays dark in both themes (9.0:1). */
+  --on-indigo: #12233c;
+
+  /* Chat badges. Peach is dark enough for white text (5.6:1); peach-soft is
+     the pale chip the shadow-ink badge sits on (7.6:1). */
+  --peach: #3a6a9e;
+  --peach-soft: #e3edf9;
+  /* Media placeholder and the LIVE badge: a dark fill the page ground reads
+     on (14.2:1). */
+  --cocoa: #16283f;
+  --cocoa-soft: #d9e6f7;
+
+  /* The highlight as the lit token: badges and icons that glow. */
+  --glow: #ffd65c;
+  /* Dark scrim behind the notify dialog's backdrop blur. */
+  --obsidian: #0f1b2e;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Night sky. The brief's base never becomes the ground -- it is her hair
+     colour, and hair sits against the sky, not the other way round. */
+  --bg: #101a2b;
+  --surface: #18253a;
+  --surface-deep: #21314a;
+
+  --line: #2c3f5c;
+  --line-strong: #5b86b7;
+
+  --fg: #e8f1fc;
+  --fg-muted: #a9c2e2;
+  /* 4.55:1 on surface-deep, the tightest pair in the ramp and still AA. */
+  --fg-subtle: #7f9ac0;
+
+  /* The highlight as accent: gold on night is the strongest text pairing in
+     the brief (12.5:1), the lit eyes against a dark room. */
+  --accent: #ffd65c;
+  --accent-contrast: #101a2b;
+  --accent-soft: #38301d;
+
+  --ring: #ffd65c;
+
+  /* The brief's three tones stay exact across both themes; they are the
+     brief. */
+  --indigo: #a3c7ee;
+  --indigo-deep: #5b86b7;
+  --indigo-soft: #a3c7ee;
+  --shadow: #5b86b7;
+  --shadow-ink: #a9c4e6;
+  --lilac: #ffd65c;
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-deep: var(--surface-deep);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-indigo: var(--indigo);
+  --color-indigo-deep: var(--indigo-deep);
+  --color-indigo-soft: var(--indigo-soft);
+  /* text-shadow resolves here, so the badge text is the text-safe reading of
+     the tone (--shadow-ink), not the mid-tone brief value itself. */
+  --color-shadow: var(--shadow-ink);
+  --color-lilac: var(--lilac);
+  --color-ink: var(--ink);
+  --color-ink-hover: var(--ink-hover);
+  --color-on-indigo: var(--on-indigo);
+  --color-peach: var(--peach);
+  --color-peach-soft: var(--peach-soft);
+  --color-cocoa: var(--cocoa);
+  --color-cocoa-soft: var(--cocoa-soft);
+  --color-glow: var(--glow);
+  --color-obsidian: var(--obsidian);
+
+  /* Quicksand for display: rounded terminals and a geometric skeleton, a soft
+     face without being a novelty one. "Dream keeper" reads as clouds and
+     pillow-shapes; a serif would put her in a study, and the family's serif
+     faces are already taken by characters that asked for them. Display-only
+     the way every display face here is: it carries headings, the text is read
+     in the body face. */
+  --font-display: "Quicksand Variable", "Trebuchet MS", ui-rounded, sans-serif;
+  /* Hanken Grotesk for everything else: a humanist sans with a tall x-height,
+     so 12px caption text stays open, and it does not compete with a display
+     face this round. */
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --radius-arch: 999px 999px 20px 20px;
+  --radius-card: 20px;
+  --radius-btn: 16px;
+  /* Missing from the template: without this the tags and chips that write
+     rounded-pill render square, which breaks the shape rule above. */
+  --radius-pill: 999px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Only the theme switch animates. Every other transition is declared on the
+     component that needs it, so this cannot smear across scroll. */
+  body,
+  body * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 280ms;
+    transition-timing-function: var(--ease-out-expo);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--indigo);
+    color: var(--on-indigo);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  /* Paper grain. Fixed and pointer-events-none on purpose: the same noise on a
+     scrolling container repaints the GPU every frame and drops mobile FPS. */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Light spilling from the top of the page: the base blue on one side, the
+     gold highlight on the other, the two halves of her design meeting above
+     the fold. A gradient, not an image: zero bytes on the critical path and no
+     layout shift. */
+  .dawn-wash {
+    background:
+      radial-gradient(
+        46rem 26rem at 82% -10%,
+        color-mix(in oklab, var(--indigo) 42%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        34rem 22rem at 4% 0%,
+        color-mix(in oklab, var(--lilac) 34%, transparent),
+        transparent 72%
+      );
+  }
+
+  /* Diagonal hairline field. Sits behind the colophon only, where the density
+     is high enough to carry texture. */
+  .pinstripe {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklab, var(--line-strong) 22%, transparent) 0 1px,
+      transparent 1px 9px
+    );
+  }
+
+  .rule {
+    background-image: linear-gradient(
+      to right,
+      var(--line-strong) 0 32%,
+      transparent 32% 100%
+    );
+    height: 1px;
+  }
+}
+
+/* Motion collapses to instant under this query. Everything animated on the
+   page is decorative or feedback, so removing it costs no information. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print and "save as PDF": any block still waiting on its IntersectionObserver
+   is forced to its final state, so the saved page has no empty sections. */
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+  /* bg-ink text-bg flips with the ground: a constant ink would put dark on
+     dark and the primary button would vanish at the point it should be most
+     clickable. Gold fill, dark text (12.5:1). */
+  --ink: #ffd65c;
+  --ink-hover: #ffe38f;
+  --on-indigo: #12233c;
+
+  --peach: #3a6a9e;
+  --peach-soft: #22334d;
+  /* Lighter here than in light mode: a fill carrying the page ground as text
+     has to be light on a dark page (9.9:1). */
+  --cocoa: #9cc1ea;
+  --cocoa-soft: #2a3b56;
+
+  --glow: #ffd65c;
+  --obsidian: #0a1119;
+}

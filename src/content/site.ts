@@ -178,12 +178,14 @@ export const series = [
 ] as const;
 
 /**
- * Colophon. A credit line naming who built the page. Kept as a footnote, not a
- * showcase section.
+ * Colophon. Credit lines naming who built the page and who asked for it. Kept
+ * as a footnote, not a showcase section.
  */
 export const colophon = {
   /** Credit line. Replaces a former tool list, which described the stack rather than the person. */
   credit: "Developed by Sakamura",
+  /** Requester credit — the person whose /submit request this page answers. */
+  requested: "Requested by Pajaa",
 } as const;
 
 /**

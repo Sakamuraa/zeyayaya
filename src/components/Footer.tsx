@@ -58,7 +58,10 @@ export function Footer({ route }: { route: Route }) {
           <p>
             {year} {site.name}. Konten dan gambar milik kreator yang ditampilkan.
           </p>
-          <p className="sm:text-right">{colophon.credit}</p>
+          <p className="sm:text-right">
+            {colophon.credit}
+            <span className="mt-1 block">{colophon.requested}</span>
+          </p>
         </div>
       </div>
     </footer>
